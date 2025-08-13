@@ -10,15 +10,19 @@ else
     error('CPACS wing format is not as expected!')
 end
 
-switch wing_tmp.Attributes.symmetry
-    case 'x-y-plane'
-        symmetry_enum = 1;
-    case 'x-z-plane'
-        symmetry_enum = 2;
-    case 'y-z-plane'
-        symmetry_enum = 3;
-    otherwise
-        symmetry_enum = 0;
+if isfield(wing_tmp.Attributes, 'symmetry') %may not be specified, e.g. for VTP
+    switch wing_tmp.Attributes.symmetry
+        case 'x-y-plane'
+            symmetry_enum = 1;
+        case 'x-z-plane'
+            symmetry_enum = 2;
+        case 'y-z-plane'
+            symmetry_enum = 3;
+        otherwise
+            symmetry_enum = 0;
+    end
+else
+    symmetry_enum = 0;
 end
 
 end

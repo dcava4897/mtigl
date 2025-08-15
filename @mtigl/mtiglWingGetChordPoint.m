@@ -52,11 +52,12 @@ point_xyz_end   = interp1([0,1], [xyz_LE_end, xyz_TE_end]',     xsi, 'linear')';
 [point_xyz_start] = mtigl.transformPoint(point_xyz_start, section_start.transformation);
 [point_xyz_end]   = mtigl.transformPoint(point_xyz_end, section_end.transformation);
 
-% Transform point according to wing transformation
-[point_xyz_start] = mtigl.transformPoint(point_xyz_start, wing_tmp.transformation);
-[point_xyz_end]   = mtigl.transformPoint(point_xyz_end, wing_tmp.transformation);
+% % Transform point according to wing transformation
+% [point_xyz_start] = mtigl.transformPoint(point_xyz_start, wing_tmp.transformation);
+% [point_xyz_end]   = mtigl.transformPoint(point_xyz_end, wing_tmp.transformation);
 
-% Get position of starting section in wing + length of this segment
+% Get position of starting section in wing + vector from start to end
+% of this segment
 xyz_start = zeros(3,1);
 for i_seg = 1:(segment_index-1)
     xyz_seg_tmp = mtigl.getWingSegmentVector(wing_tmp, wing_tmp.segments.segment{i_seg});
@@ -64,9 +65,14 @@ for i_seg = 1:(segment_index-1)
 end
 xyz_seg = mtigl.getWingSegmentVector(wing_tmp, segment_tmp);
 
-point_xyz_end = point_xyz_end + xyz_seg;
+point_xyz_start = point_xyz_start + xyz_start;
+point_xyz_end   = point_xyz_end   + xyz_start + xyz_seg;
 
-point_xyz = point_xyz_start + (point_xyz_end-point_xyz_start)*eta + xyz_start;
+% Transform point according to wing transformation
+[point_xyz_start] = mtigl.transformPoint(point_xyz_start, wing_tmp.transformation);
+[point_xyz_end]   = mtigl.transformPoint(point_xyz_end, wing_tmp.transformation);
+
+point_xyz = point_xyz_start + (point_xyz_end-point_xyz_start)*eta;
 
 x_pt = point_xyz(1);
 y_pt = point_xyz(2);

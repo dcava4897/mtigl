@@ -6,7 +6,8 @@ function [xyz_up, xyz_lw] = getAirfoilUpperLower(airfoil, xsi)
     y_prf = [eval(['[',airfoil.pointList.y.Text,']'])];
     z_prf = [eval(['[',airfoil.pointList.z.Text,']'])];
     
-    
+     [x_prf,y_prf,z_prf] = mtigl.correctAirfoilProfile(x_prf,y_prf,z_prf);
+     
     %Usually airfoils are x subset of [0,1], but just to be safe:
     %Leading edge: minimum x
     [x_LE,idx_LE] = min(x_prf);

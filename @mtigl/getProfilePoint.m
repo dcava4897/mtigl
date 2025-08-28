@@ -16,6 +16,8 @@ function [x_pt, y_pt, z_pt] = getProfilePoint(profile, zeta)
     y_prf = [eval(['[',profile.pointList.y.Text,']'])];
     z_prf = [eval(['[',profile.pointList.z.Text,']'])];
     
+    [x_prf,y_prf,z_prf] = mtigl.correctAirfoilProfile(x_prf,y_prf,z_prf);
+    
     delta_l_prf = vecnorm(diff([x_prf,y_prf,z_prf],1),2,2);
     l_prf = sum(delta_l_prf);
     cum_delta_l_prf = [0; cumsum(delta_l_prf)];

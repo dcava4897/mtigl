@@ -6,6 +6,7 @@ function [xyz_LE, xyz_TE] = getAirfoilLETE(airfoil)
     y_prf = [eval(['[',airfoil.pointList.y.Text,']'])];
     z_prf = [eval(['[',airfoil.pointList.z.Text,']'])];
     
+    [x_prf,y_prf,z_prf] = mtigl.correctAirfoilProfile(x_prf,y_prf,z_prf);
     
     %Leading edge: minimum x
     [~,idx_LE] = min(x_prf);

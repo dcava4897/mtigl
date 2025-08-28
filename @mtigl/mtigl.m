@@ -53,6 +53,8 @@ classdef mtigl < handle
         [xyz_out]     = scalePoints(xyz_in, transformation)
         [DCM]         = generateDCM(roll, pitch, yaw)
         
+        [x,y,z]   = correctAirfoilProfile(x,y,z)
+        
     end
     
     
